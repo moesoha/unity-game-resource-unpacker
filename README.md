@@ -1,4 +1,4 @@
-This project is test with Xamarin Unity game which Android package name is `com.papegames.evol`.
+This project is tested with Xamarin Unity game which Android package name is `com.papegames.evol`.
 
 ## Requirements
 
