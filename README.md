@@ -2,5 +2,7 @@ This project is test with Xamarin Unity game which Android package name is `com.
 
 ## Requirements
 
-	pip install pillow unitypack lz4 fsb5 pkm2png
+	pip install pillow unitypack lz4 fsb5
+
+	`etcpack.exe`, `libogg.dll`, `libvorbis.dll` are for Windows.
 
