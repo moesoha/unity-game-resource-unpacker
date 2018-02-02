@@ -100,12 +100,19 @@ class UnityGameResUnpack:
 			print(args.indir,args.outdir)
 
 
-	def handleFile(self,filepath):
+	def handleFile(self,filepath,filedir):
 		subdirname=filepath.replace(self.apkExtractedPath,"")
+		filedirpath=filedir.replace(self.apkExtractedPath,"")
 		while(subdirname[0]=="/" or subdirname[0]=="\\"):
 			subdirname=subdirname[1:]
+		if(filedirpath==""):
+			filedirpath="."
+		while(filedirpath[0]=="/" or filedirpath[0]=="\\"):
+			filedirpath=filedirpath[1:]
 		savepath=os.path.join(self.assetsExtractTo,subdirname)
 		os.makedirs(savepath,exist_ok=True)
+		filedirpath=os.path.join(self.assetsExtractTo,filedirpath)
+		os.makedirs(filedirpath,exist_ok=True)
 		# savepath=os.path.dirname(filepath);
 		with open(filepath,'rb') as file:
 			bundle=unitypack.load(file)
@@ -175,11 +182,14 @@ class UnityGameResUnpack:
 
 						elif obj.type=="TextAsset":
 							print(obj.type,":",data.name)
+							# toSavePath=savepath
+							toSavePath=filedirpath
 							if isinstance(data.script,bytes):
 								filename,mode=data.name,"wb"
+								putFile(filename,toSavePath,data.script,mode=mode)
 							else:
 								filename,mode=data.name,"w"
-							putTextFile(filename,savepath,data.script,mode=mode,encoding="utf-8")
+								putTextFile(filename,toSavePath,data.script,mode=mode,encoding="utf-8")
 					except Exception as e:
 						print("WARNING: Error while processing %r (%s)"%(filepath,e))
 
@@ -194,7 +204,7 @@ def main():
 			except NotImplementedError as e:
 				pass
 			else:
-				ugru.handleFile(nowFilePath)
+				ugru.handleFile(nowFilePath,currentPath)
 
 
 if __name__=="__main__":
